@@ -4,9 +4,7 @@ import (
 	"math"
 )
 
-func GoldenSectionSearch(f func(float64) float64, a float64, b float64) float64 {
-	l := 0.001
-
+func GoldenSectionSearch(f func(float64) float64, a, b float64, epsilon float64) float64 {
 	y := a + (3-math.Sqrt(5))/2*(b-a)
 	z := a + b - y
 
@@ -23,7 +21,7 @@ func GoldenSectionSearch(f func(float64) float64, a float64, b float64) float64 
 		
 		delta := math.Abs(a-b)
 	
-		if l >= delta {
+		if epsilon >= delta {
 			return (a+b)/2
 		}
 	}
