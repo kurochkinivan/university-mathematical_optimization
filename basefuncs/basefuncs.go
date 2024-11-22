@@ -2,10 +2,6 @@ package basefuncs
 
 import "math"
 
-const (
-	F2str = "e^x + (1/(x+2))"
-)
-
 func F1(x float64) float64 {
 	return math.Pow(2*math.Pow((x+1), 2)*(5-x), 1.0/3.0) - 2
 }

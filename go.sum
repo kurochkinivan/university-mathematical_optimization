@@ -1,2 +1,4 @@
 github.com/TheDemx27/calculus v0.0.0-20240404035941-70fc99def2fc h1:jz37tmzX4IujpitBmEF2Ru3T7px7nBHQzuicTjzjWNU=
 github.com/TheDemx27/calculus v0.0.0-20240404035941-70fc99def2fc/go.mod h1:/Gyl8Oe8ljMNgrCIoCHoCBXgC526d9TJ1vJwfFMmsqg=
+gonum.org/v1/gonum v0.15.1 h1:FNy7N6OUZVUaWG9pTiD+jlhdQ3lMP+/LcTpJ6+a8sQ0=
+gonum.org/v1/gonum v0.15.1/go.mod h1:eZTZuRFrzu5pcyjN5wJhcIhnUdNijYxX1T2IcrOGY0o=

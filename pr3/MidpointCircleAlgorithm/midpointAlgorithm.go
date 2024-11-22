@@ -3,15 +3,14 @@ package midpointalgorithm
 import (
 	"math"
 
-	"github.com/TheDemx27/calculus"
+	"gonum.org/v1/gonum/diff/fd"
 )
 
-func MidpointAlgorithm(f0 string, a, b float64, epsilon float64) float64 {
-	f := calculus.NewFunc(f0)
+func MidpointAlgorithm(f func(float64) float64, a, b float64, epsilon float64) float64 {
 	for {
 		x := (a + b) / 2
-		
-		deriv := f.Diff(x)
+
+		deriv := fd.Derivative(f, x, nil)
 		if b-a <= epsilon || math.Abs(deriv) <= epsilon {
 			return x
 		}
