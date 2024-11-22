@@ -1,13 +1,12 @@
 package constants
 
 const (
-	X = 3
-
-	Epsilon = 1e-03
+	Epsilon = 1e-04
+	Iterations = 1000000
 )
 
 // Interval [A; B]
 const (
-	A float64 = -1
-	B float64 = 1
+	A float64 = -2
+	B float64 = 0
 )

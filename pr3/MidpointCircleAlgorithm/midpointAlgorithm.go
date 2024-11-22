@@ -7,6 +7,10 @@ import (
 )
 
 func MidpointAlgorithm(f func(float64) float64, a, b float64, epsilon float64) float64 {
+	if epsilon <= 0 {
+		panic("epsilon must be > 0")
+	}
+	
 	for {
 		x := (a + b) / 2
 

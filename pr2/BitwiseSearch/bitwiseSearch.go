@@ -5,6 +5,10 @@ import (
 )
 
 func BitwiseSearch(f func(float64) float64, a, b float64, epsilon float64) float64 {
+	if epsilon <= 0 {
+		panic("epsilon must be > 0")
+	}
+	
 	h := (b - a) / 4
 	x0 := a
 
