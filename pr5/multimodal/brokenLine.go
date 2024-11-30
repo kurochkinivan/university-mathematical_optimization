@@ -1,72 +1,65 @@
 package multimodal
 
-func BrokenLine(f func(float64) float64, a float64, b float64, L float64, eps float64) float64 {
+import (
+	"math"
+)
+
+func BrokenLine(f func(float64) float64, a, b, L, eps float64) float64 {
 	if eps <= 0 {
 		panic("eps must be > 0")
 	}
 
-	// Шаг 1
 	x0 := (f(a) - f(b) + L*(a+b)) / (2 * L)
-	p0 := (f(a) + f(b) + L*(a-b)) / 2
+	y0 := (f(a) + f(b) + L*(a-b)) / 2
+	p0 := y0
 
-	p := p0
-
-	// Список пар точка-значение функции
 	pairs := make([][2]float64, 0)
+	delta1 := (f(x0) - p0) / (2 * L)
+	x11, x12 := x0-delta1, x0+delta1
+	p1 := (f(x0) + p0) / 2
+	pairs = append(pairs, [2]float64{x11, p1}, [2]float64{x12, p1})
 
-	// 1-й шаг
-	y0 := f(x0)
-	delta := (y0 - p0) / (2 * L)
-	x1 := x0 - delta
-	x2 := x0 + delta
-	p = (y0 + p0) / 2
-	pairs = append(pairs, [2]float64{x1, p})
-	pairs = append(pairs, [2]float64{x2, p})
-	x0, p0 = x2, p
-
-	// 2-й шаг
-	y0 = f(x0)
-	delta = (y0 - p0) / (2 * L)
-	x1 = x0 - delta
-	x2 = x0 + delta
-	p = (y0 + p0) / 2
-	pairs = append(pairs, [2]float64{x1, p})
-	pairs = append(pairs, [2]float64{x2, p})
-
-	// 3-й шаг
-	x0, p0 = minPair(pairs)
-	pairs = removePair(pairs, x0, p0)
+	minPair := findMinPair(pairs)
+	pairs = removePair(pairs, minPair)
+	delta2 := (f(minPair[0]) - minPair[1]) / (2 * L)
+	x21 := minPair[0] - delta2
+	x22 := minPair[0] + delta2
+	p2 := (f(minPair[0]) + minPair[1]) / 2
+	pairs = append(pairs, [2]float64{x21, p2}, [2]float64{x22, p2})
 
 	for {
-		y0 = f(x0)
-		delta = (y0 - p0) / (2 * L)
+		minPair = findMinPair(pairs)
+		pairs = removePair(pairs, minPair)
+
+		delta := (f(minPair[0]) - minPair[1]) / (2 * L)
+		x11 = minPair[0] - delta
+		x12 = minPair[0] + delta
+		p := (f(minPair[0]) + minPair[1]) / 2
+
+		pairs = append(pairs, [2]float64{x11, p}, [2]float64{x12, p})
+
 		if 2*L*delta <= eps {
-			return x0
+			return f(minPair[0])
 		}
-		x1 = x0 - delta
-		x2 = x0 + delta
-		p = (y0 + p0) / 2
-		pairs = append(pairs, [2]float64{x1, p})
-		pairs = append(pairs, [2]float64{x2, p})
-		x0, p0 = minPair(pairs)
-		pairs = removePair(pairs, x0, p0)
 	}
 }
 
-func minPair(pairs [][2]float64) (float64, float64) {
-	minPair := pairs[0]
-	for _, pair := range pairs[1:] {
-		if pair[1] < minPair[1] {
-			minPair = pair
+func findMinPair(pairs [][2]float64) [2]float64 {
+	var minP float64 = math.MaxInt
+	var result [2]float64
+	for _, pair := range pairs {
+		if pair[1] < minP {
+			minP = pair[1]
+			result = pair
 		}
 	}
-	return minPair[0], minPair[1]
+	return result
 }
 
-func removePair(pairs [][2]float64, x float64, p float64) [][2]float64 {
+func removePair(pairs [][2]float64, pairToRemove [2]float64) [][2]float64 {
 	result := make([][2]float64, 0)
 	for _, pair := range pairs {
-		if pair[0] != x || pair[1] != p {
+		if pair[0] != pairToRemove[0] || pair[1] != pairToRemove[1] {
 			result = append(result, pair)
 		}
 	}

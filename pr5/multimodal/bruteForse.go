@@ -4,6 +4,21 @@ import (
 	"math"
 )
 
+func BruteForceModified(f func(float64) float64, a, b float64, L, eps float64) float64 {
+	h := 2 * eps / L
+
+	var minPoint float64 
+	var minValue float64 = math.MaxFloat64 
+	for x := a + h/2; x < b + h; x += h {
+		if f(x) < minValue {
+			minPoint = x
+			minValue = f(x)
+		}
+	}
+
+	return minPoint
+}
+
 func BruteForce(f func(float64) float64, A, B float64, n int) float64 {
 	if n <= 0 {
 		panic("n must be > 0")

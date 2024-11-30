@@ -15,9 +15,11 @@ func NewtonMethod(f func(float64) float64, A, B float64, epsilon float64) float6
 	for {
 		firstDeriv := fd.Derivative(f, x, &fd.Settings{
 			Formula: fd.Central,
+			Concurrent: true,
 		})
 		secondDeriv := fd.Derivative(f, x, &fd.Settings{
 			Formula: fd.Central2nd,
+			Concurrent: true,
 		})
 		// fmt.Println("1st derivative:", basefuncs.Derivative(f, x, epsilon))
 		// fmt.Println("2nd derivative:", basefuncs.SecondDerivative(f, x, epsilon))
