@@ -3,69 +3,56 @@ package parabolicapproximation
 import (
 	"fmt"
 	"math"
-	"math/rand"
+	"math/rand/v2"
 )
 
-
 func ParabolicApproximation(f func(x float64) float64, a, b, eps float64, maxIterations int) (float64, error) {
-	if eps <= 0 {
-		return 0, fmt.Errorf("epsilon must be > 0")
-	}
-
-	// Initial points
 	x1, x2, x3 := a, (a+b)/2, b
 	y1, y2, y3 := f(x1), f(x2), f(x3)
 
-	// Ensure that the conditions for the method are met
-	if !(x1 < x2 && x2 < x3 && y1 >= y2 && y2 <= y3) {
-		return 0, fmt.Errorf("invalid input data, change the initial points")
+	if !(x1 < x2 && x2 < x3) || !(y1 >= y2 && y2 <= y3) {
+		return -1, fmt.Errorf("некорректные входные данные, измените начальные точки")
 	}
 
-	// Start the iterative process
-	for i := 0; i < maxIterations; i++ {
-		// Calculate the numerator and denominator for the new point
-		numerator := y1*(x2*x2-x3*x3) + y2*(x3*x3-x1*x1) + y3*(x1*x1-x2*x2)
-		denominator := 2*y1*(x2-x3) + y2*(x3-x1) + y3*(x1-x2)
+	for k := range maxIterations {
+		k++
+		fmt.Println(x1, x2, x3)
+		y1, y2, y3 = f(x1), f(x2), f(x3)
+		numerator := (y1*(x2*x2-x3*x3) + y2*(x3*x3-x1*x1) + y3*(x1*x1-x2*x2))
+		denominator := 2 * (y1*(x2-x3) + y2*(x3-x1) + y3*(x1-x2))
 
-		var xTilda float64
-
-		// Handle the case where denominator is zero
+		var x float64
 		if denominator == 0 {
-			xTilda = rand.Float64()*(x3-x1) + x1
+			x = x1 + rand.Float64()*(x3-x1)
 		} else {
-			xTilda = numerator / denominator
+			x = numerator / denominator
 		}
 
-		// Check if the calculated xTilda is within bounds, else generate a new one
-		if xTilda < x1 || xTilda > x3 {
-			xTilda = rand.Float64()*(x3-x1) + x1
-		}
-
-		// Calculate function value at the new point
-		yTilda := f(xTilda)
-
-		// Check if the stopping condition is met
+		fmt.Println("x", x)
 		if math.Abs(x1-x3) < eps {
-			return xTilda, nil
+			fmt.Println("кол-во итераций:", k)
+			return x, nil
 		}
 
-		// Update points based on the comparison of yTilda with current y values
-		if xTilda >= x2 && xTilda <= x3 {
-			if yTilda <= y2 {
-				x1, y1 = x2, y2
-				x2, y2 = xTilda, yTilda
-			} else {
-				x3, y3 = xTilda, yTilda
+		fx := f(x)
+		if x2 <= x && x <= x3 {
+			if fx <= y2 {
+				x1, x2 = x2, x
 			}
-		} else if xTilda <= x2 && xTilda >= x1 {
-			if yTilda <= y2 {
-				x3, y3 = x2, y2
-				x2, y2 = xTilda, yTilda
-			} else {
-				x1, y1 = xTilda, yTilda
+			if fx > y2 {
+				x3 = x
+			}
+		}
+
+		if x1 <= x && x <= x2 {
+			if fx <= y2 {
+				x2, x3 = x, x2
+			}
+			if fx > y2 {
+				x1 = x
 			}
 		}
 	}
 
-	return 0, fmt.Errorf("method did not converge within the maximum number of iterations")
+	return -1, fmt.Errorf("кол-во итераций превышено")
 }

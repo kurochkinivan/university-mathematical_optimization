@@ -7,6 +7,6 @@ const (
 
 // Interval [A; B]
 const (
-	A float64 = 9.22
-	B float64 = 11
+	A float64 = -2
+	B float64 = 0
 )
