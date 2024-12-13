@@ -2,6 +2,13 @@ package basefuncs
 
 import "math"
 
+type Point struct {
+	x, y float64
+}
+func NewPoint(x, y float64) Point {
+	return Point{x: x, y: y}
+}
+
 func F1(x float64) float64 {
 	return math.Pow(2*math.Pow((x+1), 2)*(5-x), 1.0/3.0) - 2
 }
@@ -18,7 +25,10 @@ func F4(x float64) float64 {
 	return (x - 4) / (math.Sqrt(math.Pow(x, 2) + 3))
 }
 
-// Derivative returns the derivative of f at x using the symmetric difference quotient with stepsize h.
+func F5(p Point) float64 {
+	return math.Pow(p.x+2*p.y, 2) + math.Pow(p.y-3, 2)
+}
+
 func Derivative(f func(float64) float64, x float64, h float64) float64 {
 	return (f(x+h) - f(x-h)) / (2 * h)
 }
