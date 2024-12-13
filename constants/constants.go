@@ -1,8 +1,8 @@
 package constants
 
 const (
-	Epsilon = 1e-08
-	Iterations = 1000000
+	Epsilon = 1e-12
+	Iterations = 100000
 )
 
 // Interval [A; B]
