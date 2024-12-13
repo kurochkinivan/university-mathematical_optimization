@@ -1,7 +1,7 @@
 package constants
 
 const (
-	Epsilon    = 0.00001
+	Epsilon    = 0.001
 	Iterations = 100000
 )
 
@@ -14,6 +14,6 @@ const (
 // Для функций нескольких переменных
 const (
 	H               float64 = 3
-	Lambda          float64 = 2.0
+	Lambda          float64 = 2
 	HDecreaseFactor float64 = 1.1
 )

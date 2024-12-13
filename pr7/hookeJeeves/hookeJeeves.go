@@ -14,7 +14,7 @@ func HookeJeeves(f func(Point) float64, x0 Point, h0, epsilon, lambdaVal, hDecre
 
 	for {
 		x2 := exploratorySearch(f, x1, h)
-		if norm(x2, x1) < epsilon {
+		if norm(x2, x1) < epsilon && h <= epsilon {
 			return x2
 		}
 
@@ -22,7 +22,7 @@ func HookeJeeves(f func(Point) float64, x0 Point, h0, epsilon, lambdaVal, hDecre
 		x4 := exploratorySearch(f, x3, h)
 
 		if norm(x4, x3) > epsilon {
-			x1 = x2
+			x1 = x4
 		} else {
 			h /= hDecreaseFactor
 		}
@@ -60,5 +60,5 @@ func patternSearch(p1, p2 Point, lambda float64) Point {
 }
 
 func norm(p1, p2 Point) float64 {
-	return math.Sqrt(math.Pow(p2.X-p1.X, 2) + math.Pow(p2.Y-p1.Y, 2))
+	return math.Hypot(p2.X-p1.X, p2.Y-p1.Y)
 }
