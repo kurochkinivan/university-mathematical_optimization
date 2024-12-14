@@ -26,10 +26,6 @@ func F4(x float64) float64 {
 	return (x - 4) / (math.Sqrt(math.Pow(x, 2) + 3))
 }
 
-// func F5(p Point) float64 {
-// 	return math.Pow(p.x-4*p.y, 2) + math.Pow(p.y+5, 2)
-// }
-
 func F5(p Point) float64 {
 	return math.Pow(p.x+2*p.y, 2) + math.Pow(p.y-3, 2)
 }

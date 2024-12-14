@@ -13,7 +13,7 @@ const (
 
 // Для функций нескольких переменных
 const (
-	H               float64 = 3
+	H               float64 = 1
 	Lambda          float64 = 2
 	HDecreaseFactor float64 = 1.1
 )
