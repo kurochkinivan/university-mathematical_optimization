@@ -1,7 +1,7 @@
 package constants
 
 const (
-	Epsilon    = 0.001
+	Epsilon    = 1e-05
 	Iterations = 100000
 )
 
