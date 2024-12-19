@@ -1,12 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"optimization/basefuncs"
-	consts "optimization/constants"
-	hookejeeves "optimization/pr7/hookeJeeves"
-)
-
+// hookejeeves "optimization/pr7/hookeJeeves"
 // gss "optimization/pr1/GoldenSectionSearch"
 // bs "optimization/pr2/BitwiseSearch"
 // mda "optimization/pr3/MidpointCircleAlgorithm"
@@ -42,9 +36,9 @@ func main() {
 	// }
 	// fmt.Printf("Метод параболической аппроксимации: %v\n\n", ans)
 
-	minPoint := hookejeeves.HookeJeeves(func(p hookejeeves.Point) float64 {
-		return basefuncs.F5(basefuncs.NewPoint(p.X, p.Y))
-	}, hookejeeves.Point{X: 0, Y: 10}, consts.H, consts.Epsilon, consts.Lambda, consts.HDecreaseFactor)
-	fmt.Printf("Метод Хука-Дживса: %v; значение функции в этой точке: %g\n",
-		minPoint, basefuncs.F5(basefuncs.NewPoint(minPoint.X, minPoint.Y)))
+	// minPoint := hookejeeves.HookeJeeves(func(p hookejeeves.Point) float64 {
+	// 	return basefuncs.F5(basefuncs.NewPoint(p.X, p.Y))
+	// }, hookejeeves.Point{X: 0, Y: 10}, consts.H, consts.Epsilon, consts.Lambda, consts.HDecreaseFactor)
+	// fmt.Printf("Метод Хука-Дживса: %v; значение функции в этой точке: %g\n",
+	// 	minPoint, basefuncs.F5(basefuncs.NewPoint(minPoint.X, minPoint.Y)))
 }

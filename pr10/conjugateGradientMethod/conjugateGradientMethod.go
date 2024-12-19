@@ -4,35 +4,34 @@ import (
 	"fmt"
 	"math"
 	"optimization/constants"
-	goldensectionsearch "optimization/pr1/GoldenSectionSearch"
+	goldensectionsearch "optimization/pr2/GoldenSectionSearch"
 )
 
-type Vars []float64
+type Vars [2]float64
 
-func NewVars(v ...float64) Vars {
+func NewVars(x1, x2 float64) Vars {
 	var vars Vars
-	return append(vars, v...)
+	vars[0], vars[1] = x1, x2
+	return vars
 }
 
 func ConjugateGradientMethod(f func(Vars) float64, x0 Vars, eps float64, iterations int) Vars {
 	x := x0
-	n := 0
 
-	for n < iterations {
+	for n := 0; n < iterations; n++ {
 		if norm(grad(x)) < eps {
 			return x
 		}
 
 		gradient := grad(x)
-		y := NewVars(-gradient[0], -gradient[1])
+		p := NewVars(-gradient[0], -gradient[1])
 
 		minimize := func(alpha float64) float64 {
-			return f(NewVars(x[0]+alpha*y[0], x[1]+alpha*y[1]))
+			return f(NewVars(x[0]+alpha*p[0], x[1]+alpha*p[1]))
 		}
 
-		ak := goldensectionsearch.GoldenSectionSearch(minimize, -100, 100, eps)
-		x = NewVars(x[0]+ak*y[0], x[1]+ak*y[1])
-		n++
+		alpha := goldensectionsearch.GoldenSectionSearch(minimize, -100, 100, eps)
+		x = NewVars(x[0]+alpha*p[0], x[1]+alpha*p[1])
 	}
 
 	return x
