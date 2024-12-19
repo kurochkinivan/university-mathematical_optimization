@@ -1,5 +1,13 @@
 package main
 
+import (
+	"fmt"
+	"math"
+	goldensectionsearch "optimization/pr2/GoldenSectionSearch"
+	"optimization/pr6/multimodal"
+	parabolicapproximation "optimization/pr7/parabolicApproximation"
+)
+
 // hookejeeves "optimization/pr7/hookeJeeves"
 // gss "optimization/pr1/GoldenSectionSearch"
 // bs "optimization/pr2/BitwiseSearch"
@@ -41,4 +49,17 @@ func main() {
 	// }, hookejeeves.Point{X: 0, Y: 10}, consts.H, consts.Epsilon, consts.Lambda, consts.HDecreaseFactor)
 	// fmt.Printf("Метод Хука-Дживса: %v; значение функции в этой точке: %g\n",
 	// 	minPoint, basefuncs.F5(basefuncs.NewPoint(minPoint.X, minPoint.Y)))
+
+	f := func(x float64) float64 {
+		return math.Sqrt(math.Pow(800+x, 2)+600*600) + math.Sqrt(math.Pow(400+(200-x), 2)+800*800)
+	}
+	min := goldensectionsearch.GoldenSectionSearch(f, 0, 200, 1e-08)
+	fmt.Println(min, f(min))
+	fmt.Println(f(0))
+	fmt.Println(multimodal.BruteForce(f, 0, 200, 100000))
+
+	f = func(x float64) float64 {
+		return math.Pow(x, 2) + 8/x
+	}
+	parabolicapproximation.ParabolicApproximation(f, 1, 3, 1e-03, 10000)
 }
